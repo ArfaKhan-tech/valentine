@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Harshit, Be My Valentine 💘</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Comic Sans MS',cursive;}
+body{
+  background:#9b111e; /* cherry red */
+  color:#ffd700; /* yellow */
+  text-align:center;
+  overflow:hidden;
+}
+.page{display:none;min-height:100vh;padding:70px 20px;}
+.active{display:block;}
+h1{font-size:3.2rem;margin-bottom:20px;}
+p{font-size:1.4rem;margin-bottom:30px;}
+button{
+  background:#ffd700;
+  color:#9b111e;
+  border:none;
+  padding:15px 35px;
+  font-size:1.2rem;
+  border-radius:40px;
+  cursor:pointer;
+  margin:10px;
+  transition:0.3s;
+}
+button:hover{transform:scale(1.15);box-shadow:0 0 20px #ffd700;}
+.heart{font-size:4rem;animation:float 2s infinite;}
+.sad{font-size:6rem;}
+@keyframes float{
+  0%{transform:translateY(0)}
+  50%{transform:translateY(-20px)}
+  100%{transform:translateY(0)}
+}
+canvas{position:fixed;top:0;left:0;pointer-events:none;}
+</style>
+</head>
+
+<body>
+
+<!-- Romantic background music -->
+<audio autoplay loop>
+  <source src="https://www.bensound.com/bensound-music/bensound-love.mp3" type="audio/mp3">
+</audio>
+
+<canvas id="effects"></canvas>
+
+<!-- PAGE 1 -->
+<div class="page active" id="p1">
+  <h1>Hey HARSHIT 💛</h1>
+  <p>I made something special just for you… 😌</p>
+  <div class="heart">💖</div>
+  <button onclick="go(2)">Continue 😏</button>
+</div>
+
+<!-- PAGE 2 -->
+<div class="page" id="p2">
+  <h1>Important Question 🚨</h1>
+  <p>Will you be my Valentine… once again? 🥺💘</p>
+  <button onclick="yes()">YES 💛</button>
+  <button id="noBtn" onmouseover="runAway()">NO 💔</button>
+</div>
+
+<!-- PAGE YES -->
+<div class="page" id="pYes">
+  <h1>YOU SAID YES!!! 🎉💃</h1>
+  <p>I knew it 😌💛 You just made my day.</p>
+  <button onclick="go(4)">Next Question 😍</button>
+</div>
+
+<!-- PAGE 4 -->
+<div class="page" id="p4">
+  <h1>Tell Me One Thing 😋</h1>
+  <p>What do you want for our date?</p>
+  <button onclick="finalChoice('Sushi 🍣')">Sushi 🍣</button>
+  <button onclick="finalChoice('Cake 🎂')">Cake 🎂</button>
+  <button onclick="finalChoice('Coffee Date ☕')">Coffee ☕</button>
+</div>
+
+<!-- PAGE 5 -->
+<div class="page" id="p5">
+  <h1>It’s a Date 💘</h1>
+  <p id="choiceText"></p>
+  <h2>⏰ Be ready at <strong>5:00 PM</strong></h2>
+  <h2>📅 <strong>14th February</strong></h2>
+  <p>I’ll be waiting… just for you 💛</p>
+  <div class="heart">💖💖💖</div>
+</div>
+
+<script>
+function go(n){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('p'+n).classList.add('active');
+}
+
+function yes(){
+  go('Yes');
+  startCelebration();
+}
+
+function runAway(){
+  const btn = document.getElementById('noBtn');
+  btn.style.position = 'absolute';
+  btn.style.left = Math.random() * 80 + '%';
+  btn.style.top = Math.random() * 80 + '%';
+}
+
+function finalChoice(choice){
+  document.getElementById('choiceText').innerText =
+    "Perfect choice! We'll go for " + choice + " 💕";
+  go(5);
+}
+
+/* Confetti celebration */
+const canvas = document.getElementById('effects');
+const ctx = canvas.getContext('2d');
+canvas.width = innerWidth;
+canvas.height = innerHeight;
+
+let particles = [];
+
+function startCelebration(){
+  for(let i=0;i<200;i++){
+    particles.push({
+      x:Math.random()*canvas.width,
+      y:Math.random()*canvas.height,
+      r:Math.random()*6+2,
+      d:Math.random()*4+1
+    });
+  }
+  animate();
+}
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle='#ffd700';
+    ctx.fill();
+    p.y+=p.d;
+    if(p.y>canvas.height)p.y=0;
+  });
+  requestAnimationFrame(animate);
+}
+</script>
+
+</body>
+</html>
